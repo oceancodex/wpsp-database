@@ -1,14 +1,14 @@
 {
 	"name": "oceancodex/wpsp-database",
-	"version": "8.2.0",
+	"version": "8.1.0",
 	"description": "WordPress Starter Plugin - Database",
 	"keywords": [
 	],
 	"license": "MIT",
 	"require": {
-		"php": "^8.2",
-		"illuminate/database": "^v11.16.0",
-		"oceancodex/wpsp-core": "^8.2.0"
+		"php": "^8.1",
+		"illuminate/database": "^v10.48.18",
+		"oceancodex/wpsp-core": "^8.1.0"
 	},
 	"config": {
 		"sort-packages": true
