@@ -20,10 +20,12 @@ class Eloquent extends BaseInstances {
 		if (!$this->capsule) {
 			$this->capsule  = new Capsule();
 
-			$this->capsule->getDatabaseManager()->extend('mongodb', function($config, $name) {
-				$config['name'] = $name;
-				return new \MongoDB\Laravel\Connection($config);
-			});
+			if (class_exists('\MongoDB\Laravel\Connection')) {
+				$this->capsule->getDatabaseManager()->extend('mongodb', function($config, $name) {
+					$config['name'] = $name;
+					return new \MongoDB\Laravel\Connection($config);
+				});
+			}
 
 			global $wpspDatabaseConnections;
 			$wpspDatabaseConnections = array_merge(
