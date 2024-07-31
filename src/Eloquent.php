@@ -20,10 +20,10 @@ class Eloquent extends BaseInstances {
 		if (!$this->capsule) {
 			$this->capsule  = new Capsule();
 
-			if (class_exists('\MongoDB\Laravel\Connection')) {
+			if (class_exists('\WPSPCORE\MongoDB\Connection')) {
 				$this->capsule->getDatabaseManager()->extend('mongodb', function($config, $name) {
 					$config['name'] = $name;
-					return new \MongoDB\Laravel\Connection($config);
+					return new \WPSPCORE\MongoDB\Connection($config);
 				});
 			}
 
