@@ -2,23 +2,22 @@
 
 namespace WPSPCORE\Database;
 
-use Illuminate\Container\Container;
 use Illuminate\Database\Capsule\Manager as Capsule;
-use Illuminate\Database\Schema\Blueprint;
 use WPSPCORE\Base\BaseInstances;
 
 class Eloquent extends BaseInstances {
 
-	public ?Capsule $capsule    = null;
-	public string   $connection = 'mysql';
+	/** @var Capsule|null */
+	public $capsule    = null;
+	public $connection = 'mysql';
 
 	/*
 	 *
 	 */
 
-	public function afterConstruct(): void {
+	public function afterConstruct() {
 		if (!$this->capsule) {
-			$this->capsule  = new Capsule();
+			$this->capsule = new Capsule();
 
 			if (class_exists('\WPSPCORE\MongoDB\Connection')) {
 				$this->capsule->getDatabaseManager()->extend('mongodb', function($config, $name) {
@@ -33,7 +32,7 @@ class Eloquent extends BaseInstances {
 				$this->funcs->_config('database.connections')
 			);
 
-			$defaultConnectionName = $this->funcs->_getAppShortName() . '_' . $this->funcs->_config('database.default');
+			$defaultConnectionName   = $this->funcs->_getAppShortName() . '_' . $this->funcs->_config('database.default');
 			$defaultConnectionConfig = $wpspDatabaseConnections[$defaultConnectionName];
 			$this->capsule->addConnection($defaultConnectionConfig);
 
@@ -50,7 +49,7 @@ class Eloquent extends BaseInstances {
 	 *
 	 */
 
-	public function global(): void {
+	public function global() {
 		$globalEloquent = $this->funcs->_getAppShortName();
 		$globalEloquent = $globalEloquent . '_eloquent';
 		global ${$globalEloquent};
@@ -61,7 +60,11 @@ class Eloquent extends BaseInstances {
 	 *
 	 */
 
-	public function getCapsule(): ?Capsule {
+
+	/**
+	 * @return Capsule|null
+	 */
+	public function getCapsule() {
 		return $this->capsule;
 	}
 
@@ -69,14 +72,14 @@ class Eloquent extends BaseInstances {
 	 *
 	 */
 
-	public function dropDatabaseTable($tableName): string {
+	public function dropDatabaseTable($tableName) {
 		$this->funcs->_getAppEloquent()->getCapsule()->getDatabaseManager()->getSchemaBuilder()->withoutForeignKeyConstraints(function() use ($tableName) {
 			$this->getCapsule()->getDatabaseManager()->getSchemaBuilder()->dropIfExists($tableName);
 		});
 		return $tableName;
 	}
 
-	public function dropAllDatabaseTables(): array {
+	public function dropAllDatabaseTables() {
 		$definedDatabaseTables = $this->funcs->_getAppMigration()->getDefinedDatabaseTables();
 		$definedDatabaseTables = array_merge($definedDatabaseTables, ['migration_versions']);
 		foreach ($definedDatabaseTables as $definedDatabaseTable) {
