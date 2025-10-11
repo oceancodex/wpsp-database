@@ -19,7 +19,7 @@ trait ModelsTrait {
 		parent::__construct($attributes);
 	}
 
-	protected function customPrefix(): void {
+	protected function customPrefix() {
 		if (!empty($this->prefix)) {
 			$this->getConnection()->setTablePrefix($this->prefix);
 		}
