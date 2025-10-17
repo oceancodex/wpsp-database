@@ -15,7 +15,7 @@ class Eloquent extends BaseInstances {
 	 *
 	 */
 
-	protected function afterConstruct() {
+	public function afterConstruct() {
 		if (!$this->capsule) {
 			$this->capsule = new Capsule();
 

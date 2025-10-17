@@ -34,7 +34,7 @@ class BaseModel extends Model {
 
 	protected function beforeInstanceConstruct() {}
 
-	protected function afterConstruct() {}
+	public function afterConstruct() {}
 
 	protected function afterInstanceConstruct() {}
 
