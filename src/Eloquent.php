@@ -5,9 +5,11 @@ namespace WPSPCORE\Database;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use WPSPCORE\Base\BaseInstances;
 
+/**
+ * @property Capsule $capsule
+ */
 class Eloquent extends BaseInstances {
 
-	/** @var Capsule|null */
 	public $capsule    = null;
 	public $connection = 'mysql';
 
@@ -15,7 +17,7 @@ class Eloquent extends BaseInstances {
 	 *
 	 */
 
-	protected function afterConstruct() {
+	public function afterConstruct() {
 		if (!$this->capsule) {
 			$this->capsule = new Capsule();
 
@@ -62,6 +64,7 @@ class Eloquent extends BaseInstances {
 
 
 	/**
+	 * Get Capsule instance.
 	 * @return Capsule|null
 	 */
 	public function getCapsule() {
