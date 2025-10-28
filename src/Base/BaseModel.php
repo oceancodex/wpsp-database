@@ -20,7 +20,7 @@ class BaseModel extends Model {
 	 *
 	 */
 
-	protected function customPrefix() {
+	public function customPrefix() {
 		if (!empty($this->prefix)) {
 			$this->getConnection()->setTablePrefix($this->prefix);
 		}
@@ -30,12 +30,12 @@ class BaseModel extends Model {
 	 *
 	 */
 
-	protected function beforeConstruct() {}
+	public function beforeConstruct() {}
 
-	protected function beforeInstanceConstruct() {}
+	public function beforeInstanceConstruct() {}
 
-	protected function afterConstruct() {}
+	public function afterConstruct() {}
 
-	protected function afterInstanceConstruct() {}
+	public function afterInstanceConstruct() {}
 
 }
