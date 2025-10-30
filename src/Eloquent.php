@@ -29,6 +29,7 @@ class Eloquent extends BaseInstances {
 			}
 
 			global $wpspDatabaseConnections;
+
 			$wpspDatabaseConnections = array_merge(
 				$wpspDatabaseConnections ?? [],
 				$this->funcs->_config('database.connections')
@@ -36,6 +37,7 @@ class Eloquent extends BaseInstances {
 
 			$defaultConnectionName   = $this->funcs->_getAppShortName() . '_' . $this->funcs->_config('database.default');
 			$defaultConnectionConfig = $wpspDatabaseConnections[$defaultConnectionName];
+
 			$this->capsule->addConnection($defaultConnectionConfig);
 
 			foreach ($wpspDatabaseConnections as $connectionName => $connectionConfig) {
