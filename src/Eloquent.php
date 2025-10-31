@@ -78,9 +78,10 @@ class Eloquent extends BaseInstances {
 	 */
 
 	public function dropDatabaseTable($tableName) {
-		$this->funcs->_getAppEloquent()->getCapsule()->getDatabaseManager()->getSchemaBuilder()->withoutForeignKeyConstraints(function() use ($tableName) {
-			$this->getCapsule()->getDatabaseManager()->getSchemaBuilder()->dropIfExists($tableName);
-		});
+		// PHP 7.4
+		$schema = $this->funcs->_getAppEloquent()->getCapsule()->getDatabaseManager()->getSchemaBuilder();
+		$schema->disableForeignKeyConstraints();
+		$schema->dropIfExists($tableName);
 		return $tableName;
 	}
 
