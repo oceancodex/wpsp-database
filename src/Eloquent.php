@@ -4,11 +4,14 @@ namespace WPSPCORE\Database;
 
 use Illuminate\Database\Capsule\Manager as Capsule;
 use WPSPCORE\Base\BaseInstances;
+use WPSPCORE\Traits\BaseInstancesTrait;
 
 /**
- * @property Capsule $capsule
+ * @property Capsule   $capsule
  */
 class Eloquent extends BaseInstances {
+
+	use BaseInstancesTrait;
 
 	public $capsule    = null;
 	public $connection = 'mysql';
@@ -19,7 +22,7 @@ class Eloquent extends BaseInstances {
 
 	public function afterConstruct() {
 		if (!$this->capsule) {
-			$this->capsule = new Capsule();
+			$this->capsule   = new Capsule();
 
 			if (class_exists('\WPSPCORE\MongoDB\Connection')) {
 				$this->capsule->getDatabaseManager()->extend('mongodb', function($config, $name) {
@@ -58,6 +61,7 @@ class Eloquent extends BaseInstances {
 		$globalEloquent = $globalEloquent . '_eloquent';
 		global ${$globalEloquent};
 		${$globalEloquent} = $this;
+		return $this;
 	}
 
 	/*
@@ -78,19 +82,25 @@ class Eloquent extends BaseInstances {
 	 */
 
 	public function dropDatabaseTable($tableName) {
-		$this->funcs->_getAppEloquent()->getCapsule()->getDatabaseManager()->getSchemaBuilder()->withoutForeignKeyConstraints(function() use ($tableName) {
-			$this->getCapsule()->getDatabaseManager()->getSchemaBuilder()->dropIfExists($tableName);
+		// PHP 8.1+
+		$schemaBuilder = $this->capsule->getDatabaseManager()->getSchemaBuilder();
+		$schemaBuilder->withoutForeignKeyConstraints(function() use ($tableName, $schemaBuilder) {
+			$schemaBuilder->dropIfExists($tableName);
 		});
 		return $tableName;
 	}
 
 	public function dropAllDatabaseTables() {
-		$definedDatabaseTables = $this->funcs->_getAppMigration()->getDefinedDatabaseTables();
+		$definedDatabaseTables = $this->migration->getDefinedDatabaseTables();
 		$definedDatabaseTables = array_merge($definedDatabaseTables, ['migration_versions']);
 		foreach ($definedDatabaseTables as $definedDatabaseTable) {
 			$tableDropped = $this->dropDatabaseTable($definedDatabaseTable);
 		}
-		return ['success' => true, 'data' => $definedDatabaseTables, 'message' => 'Drop all database tables successfully!', 'code' => 200];
+		return [
+			'success' => true,
+			'data'    => $definedDatabaseTables,
+			'message' => 'Drop all database tables successfully!',
+		];
 	}
 
 }
