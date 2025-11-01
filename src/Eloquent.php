@@ -82,7 +82,7 @@ class Eloquent extends BaseInstances {
 	 */
 
 	public function dropDatabaseTable($tableName) {
-		// PHP 7.4
+		// PHP 7.4, 8.0
 		$schema = $this->capsule->getDatabaseManager()->getSchemaBuilder();
 		$schema->disableForeignKeyConstraints();
 		$schema->dropIfExists($tableName);
