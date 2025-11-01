@@ -7,7 +7,7 @@
 	"license": "MIT",
 	"require": {
 		"php": "^8.0",
-		"illuminate/database": "^v9.52.16",
+		"illuminate/database": "^v8.83.27",
 		"oceancodex/wpsp-core": "^8.0.0"
 	},
 	"config": {
