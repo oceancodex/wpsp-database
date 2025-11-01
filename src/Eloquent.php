@@ -4,12 +4,10 @@ namespace WPSPCORE\Database;
 
 use Illuminate\Database\Capsule\Manager as Capsule;
 use WPSPCORE\Base\BaseInstances;
-use WPSPCORE\Migration\Migration;
 use WPSPCORE\Traits\BaseInstancesTrait;
 
 /**
  * @property Capsule   $capsule
- * @property Migration $migration
  */
 class Eloquent extends BaseInstances {
 
@@ -17,7 +15,6 @@ class Eloquent extends BaseInstances {
 
 	public $capsule    = null;
 	public $connection = 'mysql';
-	public $migration  = null;
 
 	/*
 	 *
@@ -26,7 +23,6 @@ class Eloquent extends BaseInstances {
 	public function afterConstruct() {
 		if (!$this->capsule) {
 			$this->capsule   = new Capsule();
-			$this->migration = $this->extraParams['migration'] ?? null;
 
 			if (class_exists('\WPSPCORE\MongoDB\Connection')) {
 				$this->capsule->getDatabaseManager()->extend('mongodb', function($config, $name) {
