@@ -11,8 +11,6 @@ use WPSPCORE\Traits\BaseInstancesTrait;
  */
 class Eloquent extends BaseInstances {
 
-	use BaseInstancesTrait;
-
 	public $capsule    = null;
 	public $connection = 'mysql';
 
