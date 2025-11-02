@@ -83,17 +83,20 @@ class Eloquent extends BaseInstances {
 
 	public function dropDatabaseTable($tableName) {
 		// PHP 7.4, 8.0
-		$schema = $this->capsule->getDatabaseManager()->getSchemaBuilder();
-		$schema->disableForeignKeyConstraints();
-		$schema->dropIfExists($tableName);
+		$schemaBuilder = $this->capsule->getDatabaseManager()->getSchemaBuilder();
+		$schemaBuilder->disableForeignKeyConstraints();
+		$schemaBuilder->dropIfExists($tableName);
 		return $tableName;
 	}
 
-	public function dropAllDatabaseTables() {
+	public function dropAllDatabaseTables($output = null) {
 		$definedDatabaseTables = $this->migration->getDefinedDatabaseTables();
 		$definedDatabaseTables = array_merge($definedDatabaseTables, ['migration_versions']);
 		foreach ($definedDatabaseTables as $definedDatabaseTable) {
 			$tableDropped = $this->dropDatabaseTable($definedDatabaseTable);
+			if ($output) {
+				$output->writeln('<fg=green>> Dropped table: ' . $tableDropped . '</>');
+			}
 		}
 		return [
 			'success' => true,

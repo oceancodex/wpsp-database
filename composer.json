@@ -8,7 +8,8 @@
 	"require": {
 		"php": "^8.0",
 		"illuminate/database": "^v8.83.27",
-		"oceancodex/wpsp-core": "^8.0.0"
+		"oceancodex/wpsp-core": "^8.0.0",
+		"oceancodex/wpsp-events": "^8.0.0"
 	},
 	"config": {
 		"sort-packages": true
