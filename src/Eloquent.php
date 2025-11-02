@@ -90,11 +90,14 @@ class Eloquent extends BaseInstances {
 		return $tableName;
 	}
 
-	public function dropAllDatabaseTables() {
+	public function dropAllDatabaseTables($output = null) {
 		$definedDatabaseTables = $this->migration->getDefinedDatabaseTables();
 		$definedDatabaseTables = array_merge($definedDatabaseTables, ['migration_versions']);
 		foreach ($definedDatabaseTables as $definedDatabaseTable) {
 			$tableDropped = $this->dropDatabaseTable($definedDatabaseTable);
+			if ($output) {
+				$output->writeln('<fg=green>> Dropped table: ' . $tableDropped . '</>');
+			}
 		}
 		return [
 			'success' => true,
