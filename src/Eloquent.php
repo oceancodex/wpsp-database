@@ -11,8 +11,6 @@ use WPSPCORE\Traits\BaseInstancesTrait;
  */
 class Eloquent extends BaseInstances {
 
-	use BaseInstancesTrait;
-
 	public $capsule    = null;
 	public $connection = 'mysql';
 
@@ -30,8 +28,6 @@ class Eloquent extends BaseInstances {
 					return new \WPSPCORE\MongoDB\Connection($config);
 				});
 			}
-
-			global $wpspDatabaseConnections;
 
 			$wpspDatabaseConnections = array_merge(
 				$wpspDatabaseConnections ?? [],
@@ -91,7 +87,7 @@ class Eloquent extends BaseInstances {
 	}
 
 	public function dropAllDatabaseTables($output = null) {
-		$definedDatabaseTables = $this->migration->getDefinedDatabaseTables();
+		$definedDatabaseTables = $this->funcs->getMigration()->getDefinedDatabaseTables();
 		$definedDatabaseTables = array_merge($definedDatabaseTables, ['migration_versions']);
 		foreach ($definedDatabaseTables as $definedDatabaseTable) {
 			$tableDropped = $this->dropDatabaseTable($definedDatabaseTable);
