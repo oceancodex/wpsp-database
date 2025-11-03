@@ -29,8 +29,6 @@ class Eloquent extends BaseInstances {
 				});
 			}
 
-			global $wpspDatabaseConnections;
-
 			$wpspDatabaseConnections = array_merge(
 				$wpspDatabaseConnections ?? [],
 				$this->funcs->_config('database.connections')
