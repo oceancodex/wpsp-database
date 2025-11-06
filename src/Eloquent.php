@@ -87,12 +87,15 @@ class Eloquent extends BaseInstances {
 	}
 
 	public function dropAllDatabaseTables($output = null) {
+		$tz = function_exists('wp_timezone') ? wp_timezone() : new \DateTimeZone('Asia/Ho_Chi_Minh');
+		$dt = new \DateTime('now', $tz);
+		$timestamp = '[' . $dt->format('Y-m-d H:i:s') . ']';
 		$definedDatabaseTables = $this->funcs->getMigration()->getDefinedDatabaseTables();
 		$definedDatabaseTables = array_merge($definedDatabaseTables, ['migration_versions']);
 		foreach ($definedDatabaseTables as $definedDatabaseTable) {
 			$tableDropped = $this->dropDatabaseTable($definedDatabaseTable);
 			if ($output) {
-				$output->writeln('<fg=green>> Dropped table: ' . $tableDropped . '</>');
+				$output->writeln($timestamp.' <fg=green>[✓] Dropped table: ' . $tableDropped . '</>');
 			}
 		}
 		return [
